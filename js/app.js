@@ -2,6 +2,10 @@ var urlEarthquake = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/a
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
 var mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?'
 
+var southWest = L.latLng(-90, -180);
+var northEast = L.latLng(90, 180);
+
+
 var formatDate = d3.timeFormat("%B %d, %Y");
 var formatTime = d3.timeFormat("%I:%M %p");
 
@@ -49,7 +53,9 @@ var plates = L.layerGroup();
 var map = L.map('map', {
 		center: [20, -105],
 		zoom: 3,
-		layers: [light, circles]
+		layers: [light, circles],
+		minZoom: 2.5,
+		maxBounds: L.latLngBounds(southWest, northEast)
 	});
 
 var baseLayers = {
