@@ -99,4 +99,3 @@ var overlays = {
 
 L.control.layers(baseLayers, overlays).addTo(map);
 legend.addTo(map);
-
