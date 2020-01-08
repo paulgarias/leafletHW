@@ -2,8 +2,8 @@ var urlEarthquake = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/a
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
 var mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?'
 
-var southWest = L.latLng(-90, -180);
-var northEast = L.latLng(90, 180);
+var southWest = WE.latLng(-90, -180);
+var northEast = WE.latLng(90, 180);
 
 
 var formatDate = d3.timeFormat("%B %d, %Y");
@@ -22,11 +22,11 @@ function getColor(mag) {
 }
 
 
-var legend = L.control({position: 'bottomright'});
+var legend = WE.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
 
-    var div = L.DomUtil.create('div', 'info legend'),
+    var div = WE.DomUtil.create('div', 'info legend'),
         grades = [0, 1.0, 2.0, 3.0, 4.5],
         labels = [];
 
@@ -43,19 +43,19 @@ legend.onAdd = function (map) {
 var accessToken="pk.eyJ1IjoiYXJpYXNwYXVsIiwiYSI6ImNqaHY0OTBwYjB2ZWYzcXJ2MXlmdzU5bXgifQ.pPKDxGvHvR9bMnmTYHASxw";
 
 // Adding tile layer
-var light = L.tileLayer(mbUrl+"access_token="+accessToken, {id: 'mapbox.light'});
-var satellite = L.tileLayer(mbUrl+"access_token="+accessToken, {id: 'mapbox.satellite'});
+var light = WE.tileLayer(mbUrl+"access_token="+accessToken, {id: 'mapbox.light'});
+var satellite = WE.tileLayer(mbUrl+"access_token="+accessToken, {id: 'mapbox.satellite'});
 
-var circles = L.layerGroup();
-var plates = L.layerGroup();
+var circles = WE.layerGroup();
+var plates = WE.layerGroup();
 
 // Creating map object
-var map = L.map('map', {
+var map = WE.map('map', {
 		center: [20, -105],
 		zoom: 3,
 		layers: [light, circles],
 		minZoom: 2.5,
-		maxBounds: L.latLngBounds(southWest, northEast)
+		maxBounds: WE.latLngBounds(southWest, northEast)
 	});
 
 var baseLayers = {
@@ -69,7 +69,7 @@ d3.json(url, function(response) {
 	for (var i = 0 ; i < data.length; i++) {
 		var location = data[i].geometry;
 		if (location) {
-			L.circle([location.coordinates[1], location.coordinates[0]], markerSize(data[i].properties.mag), {
+			WE.circle([location.coordinates[1], location.coordinates[0]], markerSize(data[i].properties.mag), {
 				fillOpacity: 0.55, 
 				color: "black",
 				weight: 0.5,
@@ -83,7 +83,7 @@ d3.json(url, function(response) {
 	var plateTec;
 	d3.json("js/PB2002_boundaries.json", function(response) {
 		plateTec = response;
-		L.geoJSON(plateTec, {
+		WE.geoJSON(plateTec, {
 				filter: function (feature, layer) {
 					if (feature.properties) {
 						// If the property "underConstruction" exists and is true, return false (don't render features under construction)
@@ -103,5 +103,5 @@ var overlays = {
 	"Tectonic Plates": plates
 }
 
-L.control.layers(baseLayers, overlays).addTo(map);
+WE.control.layers(baseLayers, overlays).addTo(map);
 legend.addTo(map);
