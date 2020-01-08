@@ -64,7 +64,7 @@ var baseLayers = {
 	};
 
 // Grabbing our GeoJSON data..
-d3.json(urlEarthquake, function(response) {
+d3.json(url, function(response) {
 	data = response.features
 	for (var i = 0 ; i < data.length; i++) {
 		var location = data[i].geometry;
