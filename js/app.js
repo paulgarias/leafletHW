@@ -70,7 +70,7 @@ d3.json(urlEarthquake, function(response) {
 		var location = data[i].geometry;
 		if (location) {
 			L.circle([location.coordinates[1], location.coordinates[0]], markerSize(data[i].properties.mag), {
-				fillOpacity: 0.55, 
+				fillOpacity: 0.20, 
 				color: "black",
 				weight: 0.5,
 				fillColor: getColor(data[i].properties.mag)
